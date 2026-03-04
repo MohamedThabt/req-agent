@@ -34,8 +34,8 @@ export function ConversationHistory({
   onClose,
 }: ConversationHistoryProps) {
   return (
-    <div className="absolute right-4 top-full mt-2 w-80 bg-popover border border-border rounded-lg shadow-xl z-50 overflow-hidden animate-scale-in origin-top-right">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+    <div className="absolute right-4 top-full mt-2 w-80 bg-background/95 backdrop-blur-md border border-border/60 rounded-xl shadow-lg ring-1 ring-border/5 z-50 overflow-hidden animate-scale-in origin-top-right">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border/50">
         <span className="text-xs font-semibold text-foreground/90 uppercase tracking-wider">
           Conversations
         </span>

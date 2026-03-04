@@ -1,4 +1,4 @@
-import { Bot, Settings, ChevronDown, Plus, Clock } from 'lucide-react'
+import { Wand2, Settings, ChevronDown, Plus, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -18,21 +18,17 @@ interface TopBarProps {
 
 export function TopBar({ model, isOnline, onNewChat, onHistoryToggle, historyOpen }: TopBarProps) {
   return (
-    <header className="px-6 py-3 flex items-center justify-between border-b border-border bg-card z-20 shrink-0">
+    <header className="px-6 py-3 flex items-center justify-between border-b border-border/40 glass-panel-premium z-20 shrink-0">
       <div className="flex items-center gap-3">
         <div className="relative">
           <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center shadow-sm">
-            <Bot className="h-[18px] w-[18px] text-primary-foreground" />
+            <Wand2 className="h-[18px] w-[18px] text-primary-foreground" />
           </div>
           <div
-            className={`absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-card ${
+            className={`absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background ${
               isOnline ? 'bg-green-500' : 'bg-muted-foreground/40'
             }`}
-          >
-            {isOnline && (
-              <span className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-40" />
-            )}
-          </div>
+          />
         </div>
         <span className="text-sm font-semibold text-foreground tracking-tight hidden sm:block">
           ReqAgent
@@ -41,12 +37,9 @@ export function TopBar({ model, isOnline, onNewChat, onHistoryToggle, historyOpe
 
       <Button
         variant="ghost"
-        className="h-8 px-3 rounded-full bg-secondary/50 hover:bg-secondary/80 border border-border transition-all duration-200 gap-2"
+        className="h-8 px-3 rounded-full bg-secondary/30 hover:bg-secondary/60 border border-border/50 transition-all duration-200 gap-2"
       >
         <span className="relative flex h-2 w-2">
-          {isOnline && (
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
-          )}
           <span className={`relative inline-flex rounded-full h-2 w-2 ${isOnline ? 'bg-green-500' : 'bg-muted-foreground/50'}`} />
         </span>
         <Badge variant="secondary" className="bg-primary/15 text-primary text-[10px] px-1.5 py-0 h-4 rounded-sm">

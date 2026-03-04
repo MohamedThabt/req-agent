@@ -4,10 +4,8 @@ import { Button } from '@/components/ui/button'
 import {
   Paperclip,
   Send,
-  Mic,
   Sparkles,
   StopCircle,
-  Smile,
 } from 'lucide-react'
 import {
   Tooltip,
@@ -53,8 +51,8 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
   return (
     <div className="shrink-0 relative z-10 px-4 pb-6 pt-3">
       <div className="max-w-3xl mx-auto">
-        <div className={`bg-popover border border-border rounded-lg p-2 input-glow ${isLoading ? 'animate-pulse-glow' : ''}`}>
-          <div className="flex items-end gap-2">
+        <div className={`relative rounded-xl glass-panel-premium input-focus-ring transition-opacity duration-300 ${isLoading ? 'opacity-70' : ''}`}>
+          <div className="flex items-end gap-2 p-1.5">
             <div className="flex items-center gap-0.5 pb-1.5 pl-1">
               <TooltipProvider delayDuration={300}>
                 <Tooltip>
@@ -68,18 +66,6 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="top" className="text-xs">Attach file</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-all duration-200"
-                    >
-                      <Smile className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="text-xs">Emoji</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
@@ -95,21 +81,6 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
             />
 
             <div className="flex items-center gap-1 pb-1.5 pr-1">
-              <TooltipProvider delayDuration={300}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
-                    >
-                      <Mic className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="text-xs">Voice input</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
               {isLoading ? (
                 <Button
                   onClick={onStop}

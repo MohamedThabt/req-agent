@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { MessageBubble, type Message } from './MessageBubble'
-import { Bot, Sparkles, Zap, Brain, Code } from 'lucide-react'
+import { Wand2, Sparkles, Zap, Brain, Code } from 'lucide-react'
 
 interface ChatAreaProps {
   messages: Message[]
@@ -17,43 +17,37 @@ function EmptyState() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full px-4 animate-fade-in-up">
-      <div className="relative mb-12">
-        <div className="h-28 w-28 rounded-full bg-primary/10 flex items-center justify-center animate-float shadow-lg">
-          <div className="absolute inset-0 rounded-full bg-primary/5 blur-2xl animate-pulse-glow" />
-          <div className="absolute inset-3 rounded-full border border-primary/10" style={{ animation: 'orb-rotate 12s linear infinite' }} />
-          <div className="relative z-10 h-18 w-18 rounded-full bg-primary flex items-center justify-center">
-            <Bot className="h-9 w-9 text-primary-foreground" />
-          </div>
+      <div className="relative mb-8 flex items-center justify-center">
+        <div className="hero-glow" />
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary shadow-lg ring-1 ring-border/50 z-10 relative">
+          <Wand2 className="h-8 w-8 text-primary-foreground" />
         </div>
-        <span className="absolute bottom-1 right-1 h-5 w-5 rounded-full bg-green-500 border-[3px] border-background animate-glow-pulse" />
       </div>
 
-      <h1 className="text-3xl font-bold text-foreground mb-3 text-center">
+      <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-2 text-center">
         How can I help you?
       </h1>
-      <p className="text-muted-foreground text-sm mb-10 text-center max-w-sm leading-relaxed">
-        Ask me anything -- I can analyze code, generate plans, debug issues, and much more.
+      <p className="text-muted-foreground text-sm mb-10 text-center max-w-sm">
+        Ask me anything &mdash; I can analyze code, generate plans, debug issues, and much more.
       </p>
 
-      <div className="flex gap-3 flex-wrap justify-center max-w-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl w-full px-4">
         {suggestions.map((s, i) => (
           <button
             key={i}
-            className="group bg-card border border-border rounded-lg px-5 py-3 text-left hover:bg-muted/50 transition-all duration-200 hover:shadow-md cursor-pointer animate-scale-in"
-            style={{ animationDelay: `${i * 80}ms`, animationFillMode: 'both' }}
+            className="group flex flex-col items-start gap-2 rounded-2xl p-5 text-left gradient-border-card shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in-up cursor-pointer hover:-translate-y-0.5"
+            style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
           >
-            <div className="flex items-center gap-2.5">
-              <div className="text-primary/70 group-hover:text-primary transition-colors duration-200">
-                {s.icon}
-              </div>
-              <div>
-                <span className="text-sm font-medium text-foreground/85 group-hover:text-foreground transition-colors block">
-                  {s.text}
-                </span>
-                <span className="text-[11px] text-muted-foreground group-hover:text-muted-foreground/80 transition-colors">
-                  {s.desc}
-                </span>
-              </div>
+            <div className="text-muted-foreground group-hover:text-primary transition-colors duration-300">
+              {s.icon}
+            </div>
+            <div>
+              <span className="text-[15px] font-semibold text-foreground block mb-1">
+                {s.text}
+              </span>
+              <span className="text-[13px] text-muted-foreground">
+                {s.desc}
+              </span>
             </div>
           </button>
         ))}
@@ -64,12 +58,20 @@ function EmptyState() {
 
 export function ChatArea({ messages, isLoading }: ChatAreaProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const el = scrollRef.current
-    if (el) {
-      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' })
-    }
+    // Add a small delay to ensure DOM is fully painted before scrolling
+    const timeoutId = setTimeout(() => {
+      if (bottomRef.current) {
+        bottomRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+      } else if (scrollRef.current) {
+        // Fallback
+        scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
+      }
+    }, 50)
+    
+    return () => clearTimeout(timeoutId)
   }, [messages, isLoading])
 
   if (messages.length === 0) {
@@ -92,30 +94,32 @@ export function ChatArea({ messages, isLoading }: ChatAreaProps) {
         ))}
 
         {isLoading && (
-          <div className="flex gap-3 px-4 py-3 animate-fade-in-up">
-            <div className="shrink-0 mt-1">
-              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center ring-2 ring-primary/20 animate-glow-pulse shadow-md">
-                <Bot className="h-[18px] w-[18px] text-primary-foreground" />
+          <div className="flex gap-4 px-4 py-3 animate-fade-in-up">
+            <div className="shrink-0 mt-0.5">
+              <div className="h-8 w-8 rounded-md bg-primary flex items-center justify-center shadow-sm">
+              <Wand2 className="h-[18px] w-[18px] text-primary-foreground" />
               </div>
             </div>
-            <div className="bg-card border border-border rounded-lg rounded-tl-sm px-5 py-4">
-              <div className="flex items-center gap-2">
+            <div className="bg-card border border-border/60 rounded-xl rounded-tl-sm px-4 py-3 shadow-sm h-11 flex items-center justify-center">
+              <div className="flex items-center gap-1">
                 <span
-                  className="w-2 h-2 rounded-full bg-primary"
-                  style={{ animation: 'typing-dot 1.4s ease-in-out 0s infinite' }}
+                  className="w-1.5 h-1.5 rounded-full bg-primary/40 block"
+                  style={{ animation: 'typing-dot 1.4s infinite' }}
                 />
                 <span
-                  className="w-2 h-2 rounded-full bg-primary/70"
-                  style={{ animation: 'typing-dot 1.4s ease-in-out 0.2s infinite' }}
+                  className="w-1.5 h-1.5 rounded-full bg-primary/40 block"
+                  style={{ animation: 'typing-dot 1.4s 0.2s infinite' }}
                 />
                 <span
-                  className="w-2 h-2 rounded-full bg-primary/50"
-                  style={{ animation: 'typing-dot 1.4s ease-in-out 0.4s infinite' }}
+                  className="w-1.5 h-1.5 rounded-full bg-primary/40 block"
+                  style={{ animation: 'typing-dot 1.4s 0.4s infinite' }}
                 />
               </div>
             </div>
           </div>
         )}
+        
+        <div ref={bottomRef} className="h-4 w-full shrink-0" />
       </div>
     </div>
   )

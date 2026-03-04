@@ -142,7 +142,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gradient-mesh overflow-hidden">
+    <div className="h-screen flex flex-col bg-ambient-glow overflow-hidden">
       <div className="relative">
         <TopBar
           model="GPT-4o"

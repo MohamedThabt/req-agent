@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Bot, Copy, Check, ThumbsUp, ThumbsDown, RotateCcw } from 'lucide-react'
+import { Wand2, Copy, Check, ThumbsUp, ThumbsDown, RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState, type ComponentProps } from 'react'
 import {
@@ -48,10 +48,10 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
       }`}
     >
       {!isUser && (
-        <div className="shrink-0 mt-1">
-          <Avatar className="h-8 w-8 ring-2 ring-primary/20">
+        <div className="shrink-0 mt-0.5">
+          <Avatar className="h-8 w-8 ring-1 ring-border shadow-sm">
             <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-              <Bot className="h-4 w-4" />
+              <Wand2 className="h-4 w-4" />
             </AvatarFallback>
           </Avatar>
         </div>
@@ -62,7 +62,7 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
       >
         {!isUser && (
           <div className="flex items-center gap-2 mb-1.5 px-1">
-            <span className="text-xs font-bold text-primary">ReqAgent</span>
+            <span className="text-xs font-medium text-foreground/80">ReqAgent</span>
             {message.model && (
               <Badge
                 variant="secondary"
@@ -75,18 +75,12 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
         )}
 
         <div
-          className={`relative rounded-lg px-4 py-3 text-sm leading-relaxed transition-all duration-200 ${
+          className={`relative rounded-2xl px-4 py-3 text-[15px] leading-relaxed transition-all duration-200 ${
             isUser
-              ? 'bg-primary text-primary-foreground rounded-tr-sm shadow-md'
-              : 'bg-card border border-border rounded-tl-sm'
+              ? 'user-bubble-gradient rounded-tr-sm shadow-md'
+              : 'glass-panel-premium rounded-tl-sm'
           }`}
         >
-          {!isUser && (
-            <div
-              className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l-full bg-primary opacity-60"
-              aria-hidden
-            />
-          )}
 
           {isUser ? (
             <div className="whitespace-pre-wrap break-words">{message.content}</div>
@@ -96,9 +90,9 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
 
           {!isUser && isLatest && message.status === 'sending' && (
             <div className="flex items-center gap-1 mt-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/60" style={{ animation: 'typing-dot 1.4s ease-in-out 0s infinite' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/60" style={{ animation: 'typing-dot 1.4s ease-in-out 0.2s infinite' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/60" style={{ animation: 'typing-dot 1.4s ease-in-out 0.4s infinite' }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 block" style={{ animation: 'typing-dot 1.4s infinite' }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 block" style={{ animation: 'typing-dot 1.4s 0.2s infinite' }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 block" style={{ animation: 'typing-dot 1.4s 0.4s infinite' }} />
             </div>
           )}
         </div>
