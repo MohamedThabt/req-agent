@@ -142,7 +142,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-ambient-glow overflow-hidden">
+    <div className="h-screen flex flex-col bg-background overflow-hidden">
       <div className="relative">
         <TopBar
           model="GPT-4o"
@@ -173,7 +173,7 @@ function App() {
 
       <ChatArea messages={currentMessages} isLoading={isLoading} />
 
-      <ChatInput onSend={handleSend} isLoading={isLoading} onStop={handleStop} />
+      <ChatInput onSend={handleSend} isLoading={isLoading} onStop={handleStop} showHints={currentMessages.length === 0} />
     </div>
   )
 }

@@ -49,8 +49,8 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
     >
       {!isUser && (
         <div className="shrink-0 mt-0.5">
-          <Avatar className="h-8 w-8 ring-1 ring-border shadow-sm">
-            <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+          <Avatar className="h-8 w-8 ring-1 ring-border">
+            <AvatarFallback className="bg-cyan text-[#0a0a0f] text-xs">
               <Wand2 className="h-4 w-4" />
             </AvatarFallback>
           </Avatar>
@@ -66,7 +66,7 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
             {message.model && (
               <Badge
                 variant="secondary"
-                className="text-[10px] px-1.5 py-0 h-4"
+                className="text-[10px] px-1.5 py-0 h-4 bg-violet/15 text-violet font-mono"
               >
                 {message.model}
               </Badge>
@@ -77,8 +77,8 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
         <div
           className={`relative rounded-2xl px-4 py-3 text-[15px] leading-relaxed transition-all duration-200 ${
             isUser
-              ? 'user-bubble-gradient rounded-tr-sm shadow-md'
-              : 'glass-panel-premium rounded-tl-sm'
+              ? 'user-bubble rounded-tr-sm'
+              : 'surface rounded-tl-sm'
           }`}
         >
 
@@ -108,7 +108,7 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-6 w-6 rounded-sm text-muted-foreground hover:text-foreground" onClick={handleCopy}>
-                      {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                      {copied ? <Check className="h-3 w-3 text-mint" /> : <Copy className="h-3 w-3" />}
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="bottom" className="text-xs">{copied ? 'Copied!' : 'Copy'}</TooltipContent>
@@ -163,7 +163,7 @@ function MarkdownContent({ content }: { content: string }) {
           h2: ({ children }) => <h2 className="text-base font-bold mb-2 mt-3 first:mt-0">{children}</h2>,
           h3: ({ children }) => <h3 className="text-sm font-bold mb-1.5 mt-2 first:mt-0">{children}</h3>,
           blockquote: ({ children }) => (
-            <blockquote className="border-l-2 border-primary/40 pl-3 my-2 text-muted-foreground italic">{children}</blockquote>
+            <blockquote className="border-l-2 border-cyan/40 pl-3 my-2 text-muted-foreground italic">{children}</blockquote>
           ),
           table: ({ children }) => (
             <div className="overflow-x-auto my-2">
@@ -228,7 +228,7 @@ function CodeBlock({ language, code }: { language: string; code: string }) {
           className="h-6 w-6 rounded-sm text-muted-foreground hover:text-foreground"
           onClick={handleCopy}
         >
-          {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+          {copied ? <Check className="h-3 w-3 text-mint" /> : <Copy className="h-3 w-3" />}
         </Button>
       </div>
       <pre className="p-3 text-xs overflow-x-auto whitespace-pre font-mono text-foreground/90">

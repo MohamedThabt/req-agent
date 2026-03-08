@@ -1,38 +1,70 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import {
   Paperclip,
-  Send,
-  Sparkles,
+  ArrowUpIcon,
   StopCircle,
+  PlusIcon,
+  Code,
+  Brain,
+  Zap,
+  Sparkles,
 } from 'lucide-react'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 
 interface ChatInputProps {
   onSend: (message: string) => void
   isLoading: boolean
   onStop?: () => void
+  showHints?: boolean
 }
 
-export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
-  const [message, setMessage] = useState('')
+function useAutoResizeTextarea({ minHeight, maxHeight }: { minHeight: number; maxHeight?: number }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const adjustHeight = useCallback(
+    (reset?: boolean) => {
+      const textarea = textareaRef.current
+      if (!textarea) return
+      if (reset) {
+        textarea.style.height = `${minHeight}px`
+        return
+      }
+      textarea.style.height = `${minHeight}px`
+      const newHeight = Math.max(minHeight, Math.min(textarea.scrollHeight, maxHeight ?? Infinity))
+      textarea.style.height = `${newHeight}px`
+    },
+    [minHeight, maxHeight],
+  )
+
+  useEffect(() => {
+    const textarea = textareaRef.current
+    if (textarea) textarea.style.height = `${minHeight}px`
+  }, [minHeight])
+
+  useEffect(() => {
+    const handleResize = () => adjustHeight()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [adjustHeight])
+
+  return { textareaRef, adjustHeight }
+}
+
+export function ChatInput({ onSend, isLoading, onStop, showHints }: ChatInputProps) {
+  const [message, setMessage] = useState('')
+  const { textareaRef, adjustHeight } = useAutoResizeTextarea({
+    minHeight: 52,
+    maxHeight: 200,
+  })
 
   const handleSend = useCallback(() => {
     if (message.trim() && !isLoading) {
       onSend(message.trim())
       setMessage('')
-      if (textareaRef.current) {
-        textareaRef.current.style.height = 'auto'
-      }
+      adjustHeight(true)
     }
-  }, [message, isLoading, onSend])
+  }, [message, isLoading, onSend, adjustHeight])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -41,84 +73,123 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
     }
   }
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'
-      textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 160) + 'px'
-    }
-  }, [message])
-
   return (
-    <div className="shrink-0 relative z-10 px-4 pb-6 pt-3">
+    <div className="shrink-0 relative z-10 px-4 pb-5 pt-2">
       <div className="max-w-3xl mx-auto">
-        <div className={`relative rounded-xl glass-panel-premium input-focus-ring transition-opacity duration-300 ${isLoading ? 'opacity-70' : ''}`}>
-          <div className="flex items-end gap-2 p-1.5">
-            <div className="flex items-center gap-0.5 pb-1.5 pl-1">
-              <TooltipProvider delayDuration={300}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
-                    >
-                      <Paperclip className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="text-xs">Attach file</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-
+        <div
+          className={cn(
+            'relative rounded-xl bg-card border border-border transition-all duration-200',
+            isLoading && 'opacity-60',
+          )}
+          style={{ boxShadow: message.trim() ? '0 0 0 1px #00d4ff25' : undefined }}
+        >
+          <div className="overflow-y-auto">
             <Textarea
               ref={textareaRef}
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => {
+                setMessage(e.target.value)
+                adjustHeight()
+              }}
               onKeyDown={handleKeyDown}
               placeholder="Message ReqAgent..."
-              className="flex-1 resize-none border-0 bg-transparent shadow-none focus-visible:ring-0 text-sm placeholder:text-muted-foreground/50 min-h-[40px] max-h-[160px] py-2.5 px-1"
-              rows={1}
+              className={cn(
+                'w-full px-4 py-3',
+                'resize-none',
+                'bg-transparent',
+                'border-none',
+                'text-foreground text-sm',
+                'focus:outline-none',
+                'focus-visible:ring-0 focus-visible:ring-offset-0',
+                'placeholder:text-muted-foreground/40 placeholder:text-sm',
+              )}
+              style={{ overflow: 'hidden' }}
             />
+          </div>
 
-            <div className="flex items-center gap-1 pb-1.5 pr-1">
+          <div className="flex items-center justify-between px-3 pb-3">
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                className="group p-2 hover:bg-secondary rounded-lg transition-colors flex items-center gap-1.5"
+              >
+                <Paperclip className="w-4 h-4 text-muted-foreground group-hover:text-cyan transition-colors" />
+                <span className="text-xs text-muted-foreground hidden group-hover:inline transition-opacity">
+                  Attach
+                </span>
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                className="px-2 py-1 rounded-lg text-sm text-muted-foreground transition-colors border border-dashed border-border hover:border-muted-foreground/40 hover:bg-secondary flex items-center justify-between gap-1"
+              >
+                <PlusIcon className="w-4 h-4" />
+                <span className="text-xs">Project</span>
+              </button>
+
               {isLoading ? (
-                <Button
+                <button
+                  type="button"
                   onClick={onStop}
-                  size="icon"
-                  className="h-9 w-9 rounded-md bg-destructive hover:bg-destructive/90 text-destructive-foreground transition-all duration-200"
+                  className="p-1.5 rounded-lg bg-coral text-[#0a0a0f] transition-colors hover:bg-coral/90"
                 >
-                  <StopCircle className="h-4 w-4" />
-                </Button>
+                  <StopCircle className="w-4 h-4" />
+                  <span className="sr-only">Stop</span>
+                </button>
               ) : (
-                <Button
+                <button
+                  type="button"
                   onClick={handleSend}
                   disabled={!message.trim()}
-                  size="icon"
-                  className="h-9 w-9 rounded-md bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
-                >
-                  {message.trim() ? (
-                    <Send className="h-4 w-4" />
-                  ) : (
-                    <Sparkles className="h-4 w-4" />
+                  className={cn(
+                    'p-1.5 rounded-lg text-sm transition-all duration-200 flex items-center justify-center',
+                    message.trim()
+                      ? 'bg-cyan text-[#0a0a0f] hover:bg-cyan/90'
+                      : 'text-muted-foreground border border-border hover:bg-secondary',
                   )}
-                </Button>
+                >
+                  <ArrowUpIcon className="w-4 h-4" />
+                  <span className="sr-only">Send</span>
+                </button>
               )}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-3 mt-2 text-[10px] text-muted-foreground">
-          <span className="px-2 py-0.5 rounded-sm bg-muted">
-            <kbd className="font-mono">⏎</kbd> Send
-          </span>
-          <span className="px-2 py-0.5 rounded-sm bg-muted">
-            <kbd className="font-mono">⇧⏎</kbd> New line
-          </span>
-          <span className="hidden sm:inline">
-            Agent can make mistakes. Verify important information.
-          </span>
-        </div>
+        {showHints && (
+          <div className="flex items-center justify-center gap-2 mt-3 flex-wrap">
+            <HintPill icon={<Code className="w-3.5 h-3.5" />} label="Analyze code" color="text-cyan" />
+            <HintPill icon={<Brain className="w-3.5 h-3.5" />} label="Generate plan" color="text-violet" />
+            <HintPill icon={<Zap className="w-3.5 h-3.5" />} label="Debug issue" color="text-coral" />
+            <HintPill icon={<Sparkles className="w-3.5 h-3.5" />} label="Write docs" color="text-mint" />
+          </div>
+        )}
+
+        {!showHints && (
+          <div className="flex items-center justify-center gap-3 mt-2 text-[10px] text-muted-foreground">
+            <span className="px-2 py-0.5 rounded-sm bg-muted">
+              <kbd className="font-mono">⏎</kbd> Send
+            </span>
+            <span className="px-2 py-0.5 rounded-sm bg-muted">
+              <kbd className="font-mono">⇧⏎</kbd> New line
+            </span>
+          </div>
+        )}
       </div>
     </div>
+  )
+}
+
+function HintPill({ icon, label, color }: { icon: React.ReactNode; label: string; color: string }) {
+  return (
+    <button
+      type="button"
+      className="flex items-center gap-1.5 px-3 py-1.5 bg-card hover:bg-secondary rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors"
+    >
+      <span className={color}>{icon}</span>
+      <span className="text-xs">{label}</span>
+    </button>
   )
 }
