@@ -11,8 +11,8 @@ function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center h-full px-4 animate-fade-in-up">
       <div className="relative mb-6 flex items-center justify-center">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan">
-          <Wand2 className="h-7 w-7 text-[#0a0a0f]" />
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary">
+          <Wand2 className="h-7 w-7 text-primary-foreground" />
         </div>
       </div>
 
@@ -66,22 +66,22 @@ export function ChatArea({ messages, isLoading }: ChatAreaProps) {
         {isLoading && (
           <div className="flex gap-4 px-4 py-3 animate-fade-in-up">
             <div className="shrink-0 mt-0.5">
-              <div className="h-8 w-8 rounded-md bg-cyan flex items-center justify-center">
-              <Wand2 className="h-[18px] w-[18px] text-[#0a0a0f]" />
+              <div className="h-8 w-8 rounded-md bg-primary flex items-center justify-center">
+              <Wand2 className="h-[18px] w-[18px] text-primary-foreground" />
               </div>
             </div>
             <div className="bg-card border border-border rounded-xl rounded-tl-sm px-4 py-3 h-11 flex items-center justify-center">
               <div className="flex items-center gap-1.5">
                 <span
-                  className="w-1.5 h-1.5 rounded-full bg-cyan block"
+                  className="w-1.5 h-1.5 rounded-full bg-primary block"
                   style={{ animation: 'typing-dot 1.4s infinite' }}
                 />
                 <span
-                  className="w-1.5 h-1.5 rounded-full bg-cyan block"
+                  className="w-1.5 h-1.5 rounded-full bg-primary block"
                   style={{ animation: 'typing-dot 1.4s 0.2s infinite' }}
                 />
                 <span
-                  className="w-1.5 h-1.5 rounded-full bg-cyan block"
+                  className="w-1.5 h-1.5 rounded-full bg-primary block"
                   style={{ animation: 'typing-dot 1.4s 0.4s infinite' }}
                 />
               </div>

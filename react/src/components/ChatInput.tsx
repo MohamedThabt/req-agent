@@ -81,7 +81,7 @@ export function ChatInput({ onSend, isLoading, onStop, showHints }: ChatInputPro
             'relative rounded-xl bg-card border border-border transition-all duration-200',
             isLoading && 'opacity-60',
           )}
-          style={{ boxShadow: message.trim() ? '0 0 0 1px #00d4ff25' : undefined }}
+          style={{ boxShadow: message.trim() ? '0 0 0 1px color-mix(in srgb, var(--ring) 15%, transparent)' : undefined }}
         >
           <div className="overflow-y-auto">
             <Textarea
@@ -113,7 +113,7 @@ export function ChatInput({ onSend, isLoading, onStop, showHints }: ChatInputPro
                 type="button"
                 className="group p-2 hover:bg-secondary rounded-lg transition-colors flex items-center gap-1.5"
               >
-                <Paperclip className="w-4 h-4 text-muted-foreground group-hover:text-cyan transition-colors" />
+                <Paperclip className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 <span className="text-xs text-muted-foreground hidden group-hover:inline transition-opacity">
                   Attach
                 </span>
@@ -133,7 +133,7 @@ export function ChatInput({ onSend, isLoading, onStop, showHints }: ChatInputPro
                 <button
                   type="button"
                   onClick={onStop}
-                  className="p-1.5 rounded-lg bg-coral text-[#0a0a0f] transition-colors hover:bg-coral/90"
+                  className="p-1.5 rounded-lg bg-destructive text-destructive-foreground transition-colors hover:bg-destructive/90"
                 >
                   <StopCircle className="w-4 h-4" />
                   <span className="sr-only">Stop</span>
@@ -146,7 +146,7 @@ export function ChatInput({ onSend, isLoading, onStop, showHints }: ChatInputPro
                   className={cn(
                     'p-1.5 rounded-lg text-sm transition-all duration-200 flex items-center justify-center',
                     message.trim()
-                      ? 'bg-cyan text-[#0a0a0f] hover:bg-cyan/90'
+                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                       : 'text-muted-foreground border border-border hover:bg-secondary',
                   )}
                 >
@@ -160,10 +160,10 @@ export function ChatInput({ onSend, isLoading, onStop, showHints }: ChatInputPro
 
         {showHints && (
           <div className="flex items-center justify-center gap-2 mt-3 flex-wrap">
-            <HintPill icon={<Code className="w-3.5 h-3.5" />} label="Analyze code" color="text-cyan" />
-            <HintPill icon={<Brain className="w-3.5 h-3.5" />} label="Generate plan" color="text-violet" />
-            <HintPill icon={<Zap className="w-3.5 h-3.5" />} label="Debug issue" color="text-coral" />
-            <HintPill icon={<Sparkles className="w-3.5 h-3.5" />} label="Write docs" color="text-mint" />
+            <HintPill icon={<Code className="w-3.5 h-3.5" />} label="Analyze code" color="text-primary" />
+            <HintPill icon={<Brain className="w-3.5 h-3.5" />} label="Generate plan" color="text-accent-foreground" />
+            <HintPill icon={<Zap className="w-3.5 h-3.5" />} label="Debug issue" color="text-destructive" />
+            <HintPill icon={<Sparkles className="w-3.5 h-3.5" />} label="Write docs" color="text-chart-1" />
           </div>
         )}
 

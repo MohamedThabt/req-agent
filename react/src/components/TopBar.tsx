@@ -21,16 +21,16 @@ export function TopBar({ model, isOnline, onNewChat, onHistoryToggle, historyOpe
     <header className="px-6 py-3 flex items-center justify-between border-b border-border surface z-20 shrink-0">
       <div className="flex items-center gap-3">
         <div className="relative">
-          <div className="h-9 w-9 rounded-lg bg-cyan flex items-center justify-center">
-            <Wand2 className="h-[18px] w-[18px] text-[#0a0a0f]" />
+          <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
+            <Wand2 className="h-[18px] w-[18px] text-primary-foreground" />
           </div>
           <div
             className={`absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background ${
-              isOnline ? 'bg-mint' : 'bg-muted-foreground/40'
+              isOnline ? 'bg-emerald-500' : 'bg-muted-foreground/40'
             }`}
           />
         </div>
-        <span className="text-sm font-semibold text-foreground tracking-tight hidden sm:block font-mono">
+        <span className="text-sm font-semibold text-foreground tracking-tight hidden sm:block">
           ReqAgent
         </span>
       </div>
@@ -40,9 +40,9 @@ export function TopBar({ model, isOnline, onNewChat, onHistoryToggle, historyOpe
         className="h-8 px-3 rounded-full bg-secondary hover:bg-secondary/80 border border-border transition-all duration-200 gap-2"
       >
         <span className="relative flex h-2 w-2">
-          <span className={`relative inline-flex rounded-full h-2 w-2 ${isOnline ? 'bg-mint' : 'bg-muted-foreground/50'}`} />
+          <span className={`relative inline-flex rounded-full h-2 w-2 ${isOnline ? 'bg-emerald-500' : 'bg-muted-foreground/50'}`} />
         </span>
-        <Badge variant="secondary" className="bg-cyan/15 text-cyan text-[10px] px-1.5 py-0 h-4 rounded-sm font-mono">
+        <Badge variant="secondary" className="bg-primary/15 text-primary text-[10px] px-1.5 py-0 h-4 rounded-sm font-mono">
           AI
         </Badge>
         <span className="text-xs font-medium text-foreground/90">{model}</span>
@@ -59,7 +59,7 @@ export function TopBar({ model, isOnline, onNewChat, onHistoryToggle, historyOpe
                 onClick={onHistoryToggle}
                 className={`h-8 w-8 rounded-md transition-all duration-200 ${
                   historyOpen
-                    ? 'bg-cyan/15 text-cyan'
+                    ? 'bg-primary/15 text-primary'
                     : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
                 }`}
               >
@@ -75,7 +75,7 @@ export function TopBar({ model, isOnline, onNewChat, onHistoryToggle, historyOpe
                 variant="ghost"
                 size="icon"
                 onClick={onNewChat}
-                className="h-8 w-8 rounded-md text-muted-foreground hover:text-cyan hover:bg-cyan/10 transition-all duration-200"
+                className="h-8 w-8 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
               >
                 <Plus className="h-4 w-4" />
               </Button>

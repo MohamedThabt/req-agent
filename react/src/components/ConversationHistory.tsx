@@ -36,7 +36,7 @@ export function ConversationHistory({
   return (
     <div className="absolute right-4 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden animate-scale-in origin-top-right">
       <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <span className="text-[10px] font-semibold text-cyan uppercase tracking-widest font-mono">
+        <span className="text-[10px] font-semibold text-primary uppercase tracking-widest font-mono">
           Conversations
         </span>
         <Button
@@ -56,13 +56,13 @@ export function ConversationHistory({
             onClick={() => onSelect(conv.id)}
             className={`w-full text-left rounded-md px-3 py-2.5 mb-0.5 transition-all duration-150 cursor-pointer ${
               activeId === conv.id
-                ? 'bg-cyan/10 text-cyan'
+                ? 'bg-primary/10 text-primary'
                 : 'hover:bg-secondary text-foreground'
             }`}
           >
             <div className="flex items-center gap-2.5">
               <MessageSquare className={`h-3.5 w-3.5 shrink-0 ${
-                activeId === conv.id ? 'text-cyan' : 'text-muted-foreground'
+                activeId === conv.id ? 'text-primary' : 'text-muted-foreground'
               }`} />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">

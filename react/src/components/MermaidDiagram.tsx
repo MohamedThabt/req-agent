@@ -5,17 +5,16 @@ let mermaidId = 0
 
 mermaid.initialize({
   startOnLoad: false,
-  theme: 'dark',
-  darkMode: true,
+  theme: 'neutral',
   fontFamily: 'var(--font-sans)',
   themeVariables: {
     fontSize: '14px',
-    primaryColor: '#00d4ff',
-    primaryTextColor: '#0a0a0f',
-    primaryBorderColor: '#1e1e2e',
-    lineColor: '#6b6b80',
-    secondaryColor: '#a78bfa',
-    tertiaryColor: '#1a1a28',
+    primaryColor: '#d4632d',
+    primaryTextColor: '#ffffff',
+    primaryBorderColor: '#a84f24',
+    lineColor: '#8888a0',
+    secondaryColor: '#3c425c',
+    tertiaryColor: '#474d6e',
   },
 })
 
