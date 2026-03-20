@@ -12,6 +12,12 @@ import {
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { MermaidDiagram } from './MermaidDiagram'
+import {
+  CATEGORY_LABELS,
+  STATUS_LABELS,
+  type RequirementItem,
+  type RequirementStatus,
+} from '@/lib/requirements'
 
 export interface Message {
   id: string
@@ -20,14 +26,22 @@ export interface Message {
   timestamp: Date
   status?: 'sending' | 'sent' | 'error'
   model?: string
+  requirementId?: string
 }
 
 interface MessageBubbleProps {
   message: Message
   isLatest?: boolean
+  requirement?: RequirementItem
+  onRequirementStatusChange?: (id: string, status: RequirementStatus) => void
 }
 
-export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
+export function MessageBubble({
+  message,
+  isLatest,
+  requirement,
+  onRequirementStatusChange,
+}: MessageBubbleProps) {
   const [copied, setCopied] = useState(false)
   const isUser = message.role === 'user'
 
@@ -71,6 +85,16 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
                 {message.model}
               </Badge>
             )}
+            {requirement && (
+              <>
+                <Badge variant="outline" className="h-4 rounded-sm px-1.5 text-[10px] font-mono">
+                  {requirement.id}
+                </Badge>
+                <Badge variant="secondary" className="h-4 rounded-sm px-1.5 text-[10px]">
+                  {CATEGORY_LABELS[requirement.category]}
+                </Badge>
+              </>
+            )}
           </div>
         )}
 
@@ -101,6 +125,33 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
           <span className="text-[10px] text-muted-foreground">
             {formatTime(message.timestamp)}
           </span>
+
+          {requirement && (
+            <Badge variant="secondary" className="h-4 rounded-sm px-1.5 text-[10px]">
+              {STATUS_LABELS[requirement.status]} · {requirement.confidence}%
+            </Badge>
+          )}
+
+          {isUser && requirement && onRequirementStatusChange && (
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="xs"
+                className="h-5 px-1.5 text-[10px]"
+                onClick={() => onRequirementStatusChange(requirement.id, 'completed')}
+              >
+                Complete
+              </Button>
+              <Button
+                variant="ghost"
+                size="xs"
+                className="h-5 px-1.5 text-[10px]"
+                onClick={() => onRequirementStatusChange(requirement.id, 'needs_clarification')}
+              >
+                Clarify
+              </Button>
+            </div>
+          )}
 
           {!isUser && (
             <div className="flex items-center gap-0.5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200">
