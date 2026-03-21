@@ -191,7 +191,8 @@ Some modules and route areas appear prepared for expansion, so expect ongoing im
 
 ## Supporting Docs
 
-- Product intent and functional direction: `Docs/requirements.md`
+- Primary project overview and requirements: `Docs/overview.md`
+- Legacy compatibility pointer: `Docs/requirements.md`
 - Backend-focused guide: `backend/README.md`
 - Frontend starter guide (template-based): `frontend/README.md`
 
