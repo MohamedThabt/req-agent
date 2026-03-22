@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     app_name: str = "ReqAgent"
     app_version: str = "1.0.0"
     app_env: str = "development"
+    question_bank_path: str = "data/question-bank.json"
 
     # Logging
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
