@@ -402,14 +402,34 @@ Missing: {missing_points}
 
 ```mermaid
 stateDiagram-v2
-  [*] --> Planning
+  [*] --> SessionActive
+  SessionActive --> Planning
   Planning --> Asking
-  Asking --> Evaluating
+  Asking --> AppendChat: question sent
+  AppendChat --> WaitingForUser
+  WaitingForUser --> AppendChat: user reply received
+  AppendChat --> Evaluating
   Evaluating --> Asking: clarification needed
-  Evaluating --> Updating: accepted answer
-  Updating --> Planning: continue discovery
-  Planning --> Finalizing: all complete
-  Finalizing --> [*]
+  Evaluating --> UpdateState: accepted or skipped
+  UpdateState --> Planning: continue discovery
+  Planning --> FinalizingPRD: ready_for_prd
+  FinalizingPRD --> SessionCompleted: write sessions.prd
+  SessionCompleted --> [*]
+
+  state UpdateState {
+    [*] --> UpdateRequirements
+    UpdateRequirements --> UpdateProgress
+    UpdateProgress --> UpdateFlags
+    UpdateFlags --> [*]
+  }
+
+  note right of AppendChat
+    write to sessions.chat
+  end note
+
+  note right of UpdateState
+    write to sessions.state
+  end note
 ```
 
 ---
