@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import {
-  Paperclip,
   ArrowUpIcon,
   StopCircle,
   PlusIcon,
@@ -10,8 +9,6 @@ import {
   Brain,
   Zap,
   Sparkles,
-  FileText,
-  ImagePlus,
 } from 'lucide-react'
 
 interface ChatInputProps {
@@ -19,7 +16,6 @@ interface ChatInputProps {
   isLoading: boolean
   onStop?: () => void
   showHints?: boolean
-  onFilesSelected?: (files: File[]) => void
 }
 
 function useAutoResizeTextarea({ minHeight, maxHeight }: { minHeight: number; maxHeight?: number }) {
@@ -54,20 +50,12 @@ function useAutoResizeTextarea({ minHeight, maxHeight }: { minHeight: number; ma
   return { textareaRef, adjustHeight }
 }
 
-export function ChatInput({ onSend, isLoading, onStop, showHints, onFilesSelected }: ChatInputProps) {
+export function ChatInput({ onSend, isLoading, onStop, showHints }: ChatInputProps) {
   const [message, setMessage] = useState('')
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([])
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const { textareaRef, adjustHeight } = useAutoResizeTextarea({
     minHeight: 52,
     maxHeight: 200,
   })
-
-  const handleFileSelection = (files: File[]) => {
-    if (!files.length) return
-    setSelectedFiles(files.map((file) => file.name))
-    onFilesSelected?.(files)
-  }
 
   const handleSend = useCallback(() => {
     if (message.trim() && !isLoading) {
@@ -119,31 +107,7 @@ export function ChatInput({ onSend, isLoading, onStop, showHints, onFilesSelecte
           </div>
 
           <div className="flex items-center justify-between px-3 pb-3">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="group p-2 hover:bg-secondary rounded-lg transition-colors flex items-center gap-1.5"
-              >
-                <Paperclip className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                <span className="text-xs text-muted-foreground hidden group-hover:inline transition-opacity">
-                  Attach PDF/Image
-                </span>
-              </button>
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf,image/*"
-                multiple
-                className="hidden"
-                onChange={(event) => {
-                  const files = Array.from(event.target.files || [])
-                  handleFileSelection(files)
-                  event.currentTarget.value = ''
-                }}
-              />
-            </div>
+            <div />
 
             <div className="flex items-center gap-2">
               <button
@@ -151,7 +115,7 @@ export function ChatInput({ onSend, isLoading, onStop, showHints, onFilesSelecte
                 className="px-2 py-1 rounded-lg text-sm text-muted-foreground transition-colors border border-dashed border-border hover:border-muted-foreground/40 hover:bg-secondary flex items-center justify-between gap-1"
               >
                 <PlusIcon className="w-4 h-4" />
-                <span className="text-xs">Context</span>
+                <span className="text-xs">Add context</span>
               </button>
 
               {isLoading ? (
@@ -181,19 +145,6 @@ export function ChatInput({ onSend, isLoading, onStop, showHints, onFilesSelecte
               )}
             </div>
           </div>
-
-          {selectedFiles.length > 0 && (
-            <div className="border-t border-border/80 px-3 py-2 text-[11px] text-muted-foreground flex flex-wrap items-center gap-2">
-              <span className="font-medium text-foreground/80">Queued docs:</span>
-              {selectedFiles.slice(0, 2).map((name) => (
-                <span key={name} className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5">
-                  {name.toLowerCase().endsWith('.pdf') ? <FileText className="h-3 w-3" /> : <ImagePlus className="h-3 w-3" />}
-                  {name}
-                </span>
-              ))}
-              {selectedFiles.length > 2 && <span>+{selectedFiles.length - 2} more</span>}
-            </div>
-          )}
         </div>
 
         {showHints && (
@@ -201,7 +152,7 @@ export function ChatInput({ onSend, isLoading, onStop, showHints, onFilesSelecte
             <HintPill icon={<Code className="w-3.5 h-3.5" />} label="Business goals" color="text-primary" />
             <HintPill icon={<Brain className="w-3.5 h-3.5" />} label="User roles" color="text-accent-foreground" />
             <HintPill icon={<Zap className="w-3.5 h-3.5" />} label="Core workflows" color="text-destructive" />
-            <HintPill icon={<Sparkles className="w-3.5 h-3.5" />} label="Constraints" color="text-chart-1" />
+            <HintPill icon={<Sparkles className="w-3.5 h-3.5" />} label="Integrations & constraints" color="text-chart-1" />
           </div>
         )}
 

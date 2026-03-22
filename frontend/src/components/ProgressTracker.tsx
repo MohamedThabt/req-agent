@@ -1,21 +1,29 @@
-import { CATEGORY_LABELS, type RequirementCategory } from '@/lib/requirements'
+import {
+  CATEGORY_LABELS,
+  CATEGORY_ORDER,
+  type RequirementCategory,
+} from '@/lib/requirements'
 
 interface ProgressTrackerProps {
-  progressByCategory: Record<RequirementCategory, { completed: number; total: number }>
+  progressByCategory: Record<
+    RequirementCategory,
+    { completed: number; total: number; skipped?: number; resolved?: number }
+  >
 }
 
 export function ProgressTracker({ progressByCategory }: ProgressTrackerProps) {
-  const categories = Object.keys(progressByCategory) as RequirementCategory[]
+  const categories = CATEGORY_ORDER.filter((category) => progressByCategory[category])
   const overall = categories.reduce(
     (acc, category) => {
       acc.completed += progressByCategory[category].completed
+      acc.resolved += progressByCategory[category].resolved ?? progressByCategory[category].completed
       acc.total += progressByCategory[category].total
       return acc
     },
-    { completed: 0, total: 0 }
+    { completed: 0, resolved: 0, total: 0 }
   )
 
-  const overallPercent = overall.total ? Math.round((overall.completed / overall.total) * 100) : 0
+  const overallPercent = overall.total ? Math.round((overall.resolved / overall.total) * 100) : 0
 
   return (
     <section className="surface rounded-xl p-4">
@@ -24,13 +32,14 @@ export function ProgressTracker({ progressByCategory }: ProgressTrackerProps) {
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Requirements Progress</p>
           <p className="text-sm font-semibold text-foreground">{overallPercent}% Complete</p>
         </div>
-        <p className="text-xs text-muted-foreground">{overall.completed}/{overall.total} closed</p>
+        <p className="text-xs text-muted-foreground">{overall.resolved}/{overall.total} closed</p>
       </div>
 
       <div className="space-y-3">
         {categories.map((category) => {
           const item = progressByCategory[category]
-          const percent = item.total ? Math.round((item.completed / item.total) * 100) : 0
+          const resolved = item.resolved ?? item.completed
+          const percent = item.total ? Math.round((resolved / item.total) * 100) : 0
 
           return (
             <div key={category}>

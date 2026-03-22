@@ -1,7 +1,7 @@
-import { FileText } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
+  CATEGORY_ORDER,
   CATEGORY_LABELS,
   STATUS_LABELS,
   type RequirementCategory,
@@ -11,41 +11,46 @@ import {
 
 interface RequirementPanelProps {
   requirements: RequirementItem[]
-  documentsCount: number
   onStatusChange: (id: string, status: RequirementStatus) => void
 }
 
 function statusClass(status: RequirementStatus): string {
   if (status === 'completed') return 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+  if (status === 'skipped') return 'bg-slate-500/15 text-slate-600 dark:text-slate-400'
   if (status === 'in_progress') return 'bg-amber-500/15 text-amber-600 dark:text-amber-400'
   if (status === 'needs_clarification') return 'bg-sky-500/15 text-sky-600 dark:text-sky-400'
   if (status === 'blocked') return 'bg-destructive/15 text-destructive'
   return 'bg-secondary text-muted-foreground'
 }
 
-export function RequirementPanel({ requirements, documentsCount, onStatusChange }: RequirementPanelProps) {
+export function RequirementPanel({ requirements, onStatusChange }: RequirementPanelProps) {
+  const emptyGrouped = CATEGORY_ORDER.reduce<Record<RequirementCategory, RequirementItem[]>>(
+    (acc, category) => {
+      acc[category] = []
+      return acc
+    },
+    {} as Record<RequirementCategory, RequirementItem[]>
+  )
+
   const grouped = requirements.reduce<Record<RequirementCategory, RequirementItem[]>>(
     (acc, req) => {
       acc[req.category].push(req)
       return acc
     },
-    { business: [], functional: [], technical: [], 'non-functional': [] }
+    emptyGrouped
   )
 
   return (
-    <aside className="w-[360px] shrink-0 border-l border-border bg-card/70 p-4 backdrop-blur-sm">
+    <aside className="w-90 shrink-0 border-l border-border bg-card/70 p-4 backdrop-blur-sm">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Requirement Memory</p>
           <h2 className="text-sm font-semibold text-foreground">Structured Lifecycle</h2>
         </div>
-        <Badge variant="outline" className="h-5 gap-1 px-2 text-[10px]">
-          <FileText className="h-3 w-3" /> {documentsCount} docs
-        </Badge>
       </div>
 
       <div className="space-y-4 overflow-y-auto pr-1" style={{ maxHeight: 'calc(100vh - 180px)' }}>
-        {(Object.keys(grouped) as RequirementCategory[]).map((category) => (
+        {CATEGORY_ORDER.map((category) => (
           <div key={category} className="rounded-lg border border-border bg-background/50 p-3">
             <div className="mb-2 flex items-center justify-between">
               <p className="text-xs font-semibold text-foreground">{CATEGORY_LABELS[category]}</p>
@@ -83,6 +88,14 @@ export function RequirementPanel({ requirements, documentsCount, onStatusChange 
                       onClick={() => onStatusChange(req.id, 'needs_clarification')}
                     >
                       Clarify
+                    </Button>
+                    <Button
+                      size="xs"
+                      variant="ghost"
+                      className="h-5 px-1.5 text-[10px]"
+                      onClick={() => onStatusChange(req.id, 'skipped')}
+                    >
+                      Skip
                     </Button>
                   </div>
                 </div>

@@ -1,6 +1,6 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import { MessageBubble, type Message } from './MessageBubble'
-import { UploadCloud, Wand2 } from 'lucide-react'
+import { Wand2 } from 'lucide-react'
 import { ProgressTracker } from './ProgressTracker'
 import type {
   AgentRuntimeState,
@@ -14,22 +14,11 @@ interface ChatAreaProps {
   isLoading: boolean
   agentState: AgentRuntimeState
   progressByCategory: Record<RequirementCategory, { completed: number; total: number }>
-  onFilesSelected: (files: File[]) => void
   getRequirementById: (id: string) => RequirementItem | undefined
   onRequirementStatusChange: (id: string, status: RequirementStatus) => void
 }
 
-function EmptyState({ onFilesSelected }: { onFilesSelected: (files: File[]) => void }) {
-  const [isDragging, setIsDragging] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    setIsDragging(false)
-    const droppedFiles = Array.from(event.dataTransfer.files)
-    onFilesSelected(droppedFiles)
-  }
-
+function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center h-full px-4 animate-fade-in-up">
       <div className="relative mb-6 flex items-center justify-center">
@@ -39,45 +28,11 @@ function EmptyState({ onFilesSelected }: { onFilesSelected: (files: File[]) => v
       </div>
 
       <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2 text-center">
-        What can I help you with?
+        Start Requirement Discovery
       </h1>
       <p className="text-muted-foreground text-sm text-center max-w-md">
-        Ask me anything &mdash; code analysis, architecture plans, debugging, documentation, and more.
+        I will guide you through business goals, users, features, constraints, and validation so we can generate a complete PRD.
       </p>
-
-      <div
-        onDragOver={(event) => {
-          event.preventDefault()
-          setIsDragging(true)
-        }}
-        onDragLeave={() => setIsDragging(false)}
-        onDrop={handleDrop}
-        className={`mt-6 w-full max-w-lg rounded-xl border border-dashed px-5 py-6 text-center transition-colors ${
-          isDragging ? 'border-primary bg-primary/5' : 'border-border bg-card/60'
-        }`}
-      >
-        <UploadCloud className="mx-auto mb-2 h-5 w-5 text-primary" />
-        <p className="text-xs text-foreground/85">Drop PDF or image files to enrich requirement context</p>
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="mt-2 text-xs text-primary hover:underline"
-        >
-          Browse files
-        </button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          className="hidden"
-          accept=".pdf,image/*"
-          multiple
-          onChange={(event) => {
-            const pickedFiles = Array.from(event.target.files || [])
-            onFilesSelected(pickedFiles)
-            event.currentTarget.value = ''
-          }}
-        />
-      </div>
     </div>
   )
 }
@@ -87,7 +42,6 @@ export function ChatArea({
   isLoading,
   agentState,
   progressByCategory,
-  onFilesSelected,
   getRequirementById,
   onRequirementStatusChange,
 }: ChatAreaProps) {
@@ -114,7 +68,7 @@ export function ChatArea({
         <div className="mx-auto w-full max-w-3xl px-4 pt-4">
           <ProgressTracker progressByCategory={progressByCategory} />
         </div>
-        <EmptyState onFilesSelected={onFilesSelected} />
+        <EmptyState />
       </div>
     )
   }
@@ -138,7 +92,7 @@ export function ChatArea({
           <div className="flex gap-4 px-4 py-3 animate-fade-in-up">
             <div className="shrink-0 mt-0.5">
               <div className="h-8 w-8 rounded-md bg-primary flex items-center justify-center">
-              <Wand2 className="h-[18px] w-[18px] text-primary-foreground" />
+                <Wand2 className="h-4.5 w-4.5 text-primary-foreground" />
               </div>
             </div>
             <div className="bg-card border border-border rounded-xl rounded-tl-sm px-4 py-3 min-h-11 flex flex-col items-start justify-center">

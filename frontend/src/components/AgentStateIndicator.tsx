@@ -1,4 +1,4 @@
-import { Brain, MessageCircleQuestion, Search, FileStack, BarChart3, CheckCheck } from 'lucide-react'
+import { Brain, MessageCircleQuestion, Search, BarChart3, CheckCheck } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import type { AgentRuntimeState } from '@/lib/requirements'
 
@@ -10,7 +10,6 @@ const phaseConfig = {
   planning: { label: 'Planning', icon: Brain },
   asking: { label: 'Asking', icon: MessageCircleQuestion },
   evaluating: { label: 'Evaluating', icon: Search },
-  processing_documents: { label: 'Processing Docs', icon: FileStack },
   updating_progress: { label: 'Updating Progress', icon: BarChart3 },
   finalizing: { label: 'Finalizing', icon: CheckCheck },
 } as const
