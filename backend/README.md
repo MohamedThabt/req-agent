@@ -10,7 +10,6 @@ An intelligent chatbot API that helps software engineers gather, clarify, and st
 
 - 🤖 **Intelligent Question Engine** - Contextual, category-based questions with follow-ups
 - 📊 **Progress Tracking** - Real-time status on Business, Functional, and Technical requirements
-- 📄 **Document Support** - Process PDFs, images, and proposals with RAG (Retrieval-Augmented Generation)
 - 🎯 **Confidence Scoring** - Track answer quality and completeness (0-100%)
 - 🧭 **Intelligent Status Management** - Auto-detect question completion or need for clarification
 - 📐 **Structured Output** - Generate validated requirements documents
@@ -179,10 +178,9 @@ Request logging middleware tracks all HTTP requests/responses with request IDs f
 
 1. **Implement Question Endpoints** - Create `/api/questions` routes for CRUD operations
 2. **Build Requirement Management** - Add endpoints for requirement lifecycle management
-3. **Add Document Processing** - Implement PDF/image upload with RAG integration
-4. **Database Setup** - Configure database models for persistence
-5. **AI Integration** - Connect Google Gemini for intelligent questioning
-6. **Frontend Integration** - Connect to React frontend in the `react/` directory
+3. **Database Setup** - Configure database models for persistence
+4. **AI Integration** - Connect Google Gemini for intelligent questioning
+5. **Frontend Integration** - Connect to React frontend in the `react/` directory
 
 ---
 
