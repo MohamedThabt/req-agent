@@ -1,0 +1,391 @@
+{
+  "schema_version": "1.0",
+  "language": "en",
+  "sections": [
+    {
+      "id": "business_requirements",
+      "title": "Business Requirements",
+      "order": 1,
+      "purpose": "Define why the system should exist and how success is measured.",
+      "questions": [
+        {
+          "id": "BUS-001",
+          "type": "core",
+          "order": 1,
+          "prompt": "What problem are you trying to solve?"
+        },
+        {
+          "id": "BUS-002",
+          "type": "core",
+          "order": 2,
+          "prompt": "What is the main goal of this system?"
+        },
+        {
+          "id": "BUS-003",
+          "type": "core",
+          "order": 3,
+          "prompt": "Who are the target users?"
+        },
+        {
+          "id": "BUS-004",
+          "type": "core",
+          "order": 4,
+          "prompt": "What value will this product provide to users?"
+        },
+        {
+          "id": "BUS-005",
+          "type": "core",
+          "order": 5,
+          "prompt": "How will success be measured (KPIs)?"
+        },
+        {
+          "id": "BUS-006",
+          "type": "follow_up",
+          "order": 6,
+          "prompt": "What are users currently doing instead of this system?"
+        },
+        {
+          "id": "BUS-007",
+          "type": "follow_up",
+          "order": 7,
+          "prompt": "What are the biggest pain points in the current process?"
+        },
+        {
+          "id": "BUS-008",
+          "type": "follow_up",
+          "order": 8,
+          "prompt": "Is this a new product or replacing an existing one?"
+        }
+      ]
+    },
+    {
+      "id": "users_and_roles",
+      "title": "Users and Roles",
+      "order": 2,
+      "purpose": "Identify actor types, permissions, and role behavior.",
+      "questions": [
+        {
+          "id": "USR-001",
+          "type": "core",
+          "order": 1,
+          "prompt": "What types of users will use the system?"
+        },
+        {
+          "id": "USR-002",
+          "type": "core",
+          "order": 2,
+          "prompt": "What permissions does each role have?"
+        },
+        {
+          "id": "USR-003",
+          "type": "core",
+          "order": 3,
+          "prompt": "Can users have multiple roles?"
+        },
+        {
+          "id": "USR-004",
+          "type": "follow_up",
+          "order": 4,
+          "prompt": "What actions can each role perform?"
+        },
+        {
+          "id": "USR-005",
+          "type": "follow_up",
+          "order": 5,
+          "prompt": "Are there admin-level controls?"
+        }
+      ]
+    },
+    {
+      "id": "functional_requirements",
+      "title": "Functional Requirements",
+      "order": 3,
+      "purpose": "Define what users should be able to do in the system.",
+      "agent_guidance": "Do not ask what features do you want. Ask what should the user be able to do.",
+      "questions": [
+        {
+          "id": "FUN-001",
+          "type": "core",
+          "order": 1,
+          "prompt": "What actions can a user perform in the system?"
+        },
+        {
+          "id": "FUN-002",
+          "type": "core",
+          "order": 2,
+          "prompt": "What is the main workflow from start to finish?"
+        },
+        {
+          "id": "FUN-003",
+          "type": "core",
+          "order": 3,
+          "prompt": "What happens after a user signs up?"
+        },
+        {
+          "id": "FUN-004",
+          "type": "core",
+          "order": 4,
+          "prompt": "What are the key operations (create, update, delete, and related actions)?"
+        },
+        {
+          "id": "FUN-005",
+          "type": "workflow",
+          "order": 5,
+          "prompt": "Describe the main user journey step by step."
+        },
+        {
+          "id": "FUN-006",
+          "type": "workflow",
+          "order": 6,
+          "prompt": "What happens if something fails?"
+        },
+        {
+          "id": "FUN-007",
+          "type": "workflow",
+          "order": 7,
+          "prompt": "What are the alternative flows?"
+        },
+        {
+          "id": "FUN-008",
+          "type": "edge_case",
+          "order": 8,
+          "prompt": "What happens if the user enters invalid data?"
+        },
+        {
+          "id": "FUN-009",
+          "type": "edge_case",
+          "order": 9,
+          "prompt": "What if the system is unavailable?"
+        },
+        {
+          "id": "FUN-010",
+          "type": "edge_case",
+          "order": 10,
+          "prompt": "What if a process is interrupted?"
+        }
+      ]
+    },
+    {
+      "id": "non_functional_requirements",
+      "title": "Non-Functional Requirements",
+      "order": 4,
+      "purpose": "Capture quality attributes such as performance, security, and reliability.",
+      "questions": [
+        {
+          "id": "NFR-001",
+          "type": "performance",
+          "order": 1,
+          "prompt": "How many users do you expect?"
+        },
+        {
+          "id": "NFR-002",
+          "type": "performance",
+          "order": 2,
+          "prompt": "Should the system support real-time updates?"
+        },
+        {
+          "id": "NFR-003",
+          "type": "performance",
+          "order": 3,
+          "prompt": "What is acceptable response time?"
+        },
+        {
+          "id": "NFR-004",
+          "type": "scalability",
+          "order": 4,
+          "prompt": "Should the system handle growth over time?"
+        },
+        {
+          "id": "NFR-005",
+          "type": "scalability",
+          "order": 5,
+          "prompt": "What is the expected traffic peak?"
+        },
+        {
+          "id": "NFR-006",
+          "type": "security",
+          "order": 6,
+          "prompt": "Does the system require authentication?"
+        },
+        {
+          "id": "NFR-007",
+          "type": "security",
+          "order": 7,
+          "prompt": "What type of authentication is required (email/password, OAuth, other)?"
+        },
+        {
+          "id": "NFR-008",
+          "type": "security",
+          "order": 8,
+          "prompt": "Is there sensitive data such as payments or personal data?"
+        },
+        {
+          "id": "NFR-009",
+          "type": "reliability",
+          "order": 9,
+          "prompt": "Should the system be highly available?"
+        },
+        {
+          "id": "NFR-010",
+          "type": "reliability",
+          "order": 10,
+          "prompt": "Is downtime acceptable?"
+        },
+        {
+          "id": "NFR-011",
+          "type": "usability",
+          "order": 11,
+          "prompt": "Should it be mobile-friendly?"
+        },
+        {
+          "id": "NFR-012",
+          "type": "usability",
+          "order": 12,
+          "prompt": "Are there accessibility requirements?"
+        }
+      ]
+    },
+    {
+      "id": "integrations",
+      "title": "Integrations",
+      "order": 5,
+      "purpose": "Identify third-party systems and integration needs.",
+      "questions": [
+        {
+          "id": "INT-001",
+          "type": "core",
+          "order": 1,
+          "prompt": "Does the system integrate with external services?"
+        },
+        {
+          "id": "INT-002",
+          "type": "core",
+          "order": 2,
+          "prompt": "Does it need payment gateway integration?"
+        },
+        {
+          "id": "INT-003",
+          "type": "core",
+          "order": 3,
+          "prompt": "Does it need email or SMS providers?"
+        },
+        {
+          "id": "INT-004",
+          "type": "core",
+          "order": 4,
+          "prompt": "Are there third-party APIs to consume or expose?"
+        }
+      ]
+    },
+    {
+      "id": "constraints",
+      "title": "Constraints",
+      "order": 6,
+      "purpose": "Capture limits that affect delivery and implementation.",
+      "questions": [
+        {
+          "id": "CON-001",
+          "type": "core",
+          "order": 1,
+          "prompt": "What is the deadline?"
+        },
+        {
+          "id": "CON-002",
+          "type": "core",
+          "order": 2,
+          "prompt": "Are there required technologies?"
+        },
+        {
+          "id": "CON-003",
+          "type": "core",
+          "order": 3,
+          "prompt": "Are there budget limitations?"
+        },
+        {
+          "id": "CON-004",
+          "type": "core",
+          "order": 4,
+          "prompt": "Are there regulatory constraints?"
+        }
+      ]
+    },
+    {
+      "id": "technical_preferences",
+      "title": "Technical Preferences",
+      "order": 7,
+      "purpose": "Capture optional stack and hosting preferences.",
+      "questions": [
+        {
+          "id": "TEP-001",
+          "type": "core",
+          "order": 1,
+          "prompt": "What is the preferred backend technology?"
+        },
+        {
+          "id": "TEP-002",
+          "type": "core",
+          "order": 2,
+          "prompt": "What is the preferred database?"
+        },
+        {
+          "id": "TEP-003",
+          "type": "core",
+          "order": 3,
+          "prompt": "What is the hosting preference?"
+        }
+      ]
+    },
+    {
+      "id": "data_and_entities",
+      "title": "Data and Entities",
+      "order": 8,
+      "purpose": "Define domain entities, fields, and relationships.",
+      "questions": [
+        {
+          "id": "DAT-001",
+          "type": "core",
+          "order": 1,
+          "prompt": "What are the main entities (for example users, orders, courses)?"
+        },
+        {
+          "id": "DAT-002",
+          "type": "core",
+          "order": 2,
+          "prompt": "What data should each entity store?"
+        },
+        {
+          "id": "DAT-003",
+          "type": "core",
+          "order": 3,
+          "prompt": "How are these entities related?"
+        }
+      ]
+    },
+    {
+      "id": "validation_questions",
+      "title": "Validation Questions",
+      "order": 9,
+      "purpose": "Validate assumptions and identify unresolved requirements.",
+      "questions": [
+        {
+          "id": "VAL-001",
+          "type": "core",
+          "order": 1,
+          "prompt": "Is there anything unclear or not defined yet?"
+        },
+        {
+          "id": "VAL-002",
+          "type": "core",
+          "order": 2,
+          "prompt": "Are there any assumptions we should confirm?"
+        },
+        {
+          "id": "VAL-003",
+          "type": "core",
+          "order": 3,
+          "prompt": "What is the most critical feature?"
+        }
+      ]
+    }
+  ]
+}
